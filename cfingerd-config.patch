@@ -1,3 +1,15 @@
+--- cfingerd-1.4.3.waszi/Configure	Sun Sep  5 00:39:24 1999
++++ cfingerd-1.4.3/Configure	Wed Jan 12 18:25:30 2000
+@@ -25,7 +25,7 @@
+ $VERSION = "1.4.2";
+ $| = 1;
+ 
+-$config{'config'} = "/etc/cfingerd.conf";
++$config{'config'} = "/etc/cfingerd/cfingerd.conf";
+ 
+ sub show_header {
+ 	&disp_file("config/header");
+
 --- cfingerd-1.4.3/texts/noname_banner.txt.wiget	Sun Jun 15 19:40:33 1997
 +++ cfingerd-1.4.3/texts/noname_banner.txt	Thu Dec 30 04:20:33 1999
 @@ -1,6 +1,5 @@
