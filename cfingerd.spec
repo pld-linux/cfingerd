@@ -9,9 +9,12 @@ Copyright:	GPL
 Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	ftp://ftp.infodrom.north.de/pub/people/joey/cfingerd/%{name}-%{version}.tar.gz
-Source1:	cfingerd.logrotate
-Patch0:		cfingerd-ipv6.patch
-Patch1:		cfingerd-config.patch
+Source1:	%{name}.logrotate
+Source2:	%{name}.inetd
+Patch0:		%{name}-ipv6.patch
+Patch1:		%{name}-config.patch
+Requires:	inetdaemon
+Requires:	rc-inetd
 Provides:	fingerd
 Obsoletes:	cfingerd-nobody
 Obsoletes:	cfingerd-noroot
@@ -40,7 +43,7 @@ make do_userlist
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install	-d	$RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d}
+install	-d	$RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd}
 install	-d	$RPM_BUILD_ROOT%{_sbindir}
 install -d      $RPM_BUILD_ROOT%{_mandir}/man{1,5,8}
 
@@ -51,6 +54,7 @@ install		scripts/*		$RPM_BUILD_ROOT/etc/%{name}/scripts/
 install		cfingerd.conf		$RPM_BUILD_ROOT/etc/%{name}/
 install		userlist/userlist.conf	$RPM_BUILD_ROOT/etc/%{name}/
 install		%{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
+install		%{SOURCE2}		$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/%{name}
 install		userlist/*.1		$RPM_BUILD_ROOT%{_mandir}/man1/
 install		docs/*.5		$RPM_BUILD_ROOT%{_mandir}/man5/
 install		docs/*.8		$RPM_BUILD_ROOT%{_mandir}/man8/
@@ -69,6 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) /etc/%{name}/scripts/*
 %attr(644,root,root) /etc/%{name}/*.txt
 %attr(644,root,root) /etc/logrotate.d/%{name}
+%attr(640,root,root) /etc/sysconfig/rc-inetd/%{name}
 %attr(755,root,root) %{_sbindir}/*
 %attr(644,root,root) %{_mandir}/man[158]/*
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/cfingerd.conf
