@@ -24,14 +24,14 @@ Obsoletes:	bsd-fingerd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-* CFINGERD is a free finger daemon replacement for standard finger daemons
-  such as GNU Finger, MIT Finger, or KFINGERD.  CFINGERD is highly
-  becoming a respected standard as the finger daemon to use. 
+CFINGERD is a free finger daemon replacement for standard finger
+daemons such as GNU Finger, MIT Finger, or KFINGERD. CFINGERD is
+highly becoming a respected standard as the finger daemon to use.
 
 %description -l pl
-* CFINGERD jest darmowym serwerem us³ugi finger zastêpuj±cym inne demony
-  fingera takie jak GNU Finger, MIT Finger, lub KFINGERD. CFINGERD staje
-  siê respektowanym standardem dla demonów us³ugi finger.
+CFINGERD jest darmowym serwerem us³ugi finger zastêpuj±cym inne demony
+fingera takie jak GNU Finger, MIT Finger, lub KFINGERD. CFINGERD staje
+siê respektowanym standardem dla demonów us³ugi finger.
 
 %prep
 %setup -q
@@ -45,14 +45,14 @@ make all CFLAGS="$RPM_OPT_FLAGS"
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install	-d $RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} \
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{1,5,8}}
 
 install -s src/cfingerd	userlist/userlist $RPM_BUILD_ROOT%{_sbindir}/
 install	cfingerd.conf userlist/userlist.conf texts/*.txt \
-	$RPM_BUILD_ROOT/etc/%{name}/
+$RPM_BUILD_ROOT%{_sysconfdir}/%{name}/
 
-install	scripts/* $RPM_BUILD_ROOT/etc/%{name}/scripts/
+install scripts/* $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/scripts/
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
 install	%{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/fingerd
@@ -82,13 +82,13 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc *.gz
-%attr(755,root,root) %dir /etc/%{name}
-%attr(755,root,root) %dir /etc/%{name}/scripts
-%attr(755,root,root) /etc/%{name}/scripts/*
+%attr(755,root,root) %dir %{_sysconfdir}/%{name}
+%attr(755,root,root) %dir %{_sysconfdir}/%{name}/scripts
+%attr(755,root,root) %{_sysconfdir}/%{name}/scripts/*
 %attr(755,root,root) %{_sbindir}/*
-%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/cfingerd.conf
-%config(noreplace) %verify(not size mtime md5) /etc/%{name}/userlist.conf
-%config(noreplace) %verify(not size mtime md5) /etc/%{name}/*.txt
+%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/cfingerd.conf
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/userlist.conf
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*.txt
 %attr(640,root,root) /etc/logrotate.d/%{name}
 %attr(640,root,root) /etc/sysconfig/rc-inetd/fingerd
 %{_mandir}/man[158]/*
