@@ -1,6 +1,2 @@
 /var/log/cfingerd.log {
-        missingok
-        noifempty
-        weekly
-        compress
 }
