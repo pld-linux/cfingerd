@@ -6,4 +6,3 @@ FLAGS=nowait
 USER=root
 SERVER=tcpd
 DAEMON=/usr/sbin/cfingerd
-FAMILY=ipv4
