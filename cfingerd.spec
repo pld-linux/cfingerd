@@ -40,7 +40,7 @@ siê respektowanym standardem dla demonów us³ugi finger.
 
 %build
 ./Configure
-make all CFLAGS="$RPM_OPT_FLAGS"
+%{__make} all CFLAGS="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
