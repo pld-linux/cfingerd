@@ -1,0 +1,185 @@
+diff -ru cfingerd-1.4.3.gpg/cfingerd.conf cfingerd-1.4.3/cfingerd.conf
+--- cfingerd-1.4.3.gpg/cfingerd.conf	Fri Jul 30 10:18:32 1999
++++ cfingerd-1.4.3/cfingerd.conf	Sat Jan 15 19:59:18 2000
+@@ -16,6 +16,7 @@
+ FILES display_files = {
+ 	PLAN		= ".plan",
+ 	PROJECT		= ".project",
++	GPG_KEY		= ".gpgkey",
+ 	PGP_KEY		= ".pgpkey",
+ 	XFACE		= ".xface",
+ 	NO_FINGER	= ".nofinger",
+@@ -54,6 +55,7 @@
+ 	+PLAN			= [TRUE, TRUE],
+ 	+PROJECT		= [TRUE, TRUE],
+ 	+PGP			= [TRUE, TRUE],
++	+GPG			= [TRUE, TRUE],
+ 	+XFACE			= [TRUE, TRUE],
+ 	-NO_NAME_BANNER		= [TRUE, TRUE],
+ 	-REJECTED_BANNER	= [TRUE, TRUE],
+@@ -131,9 +133,11 @@
+ 	PLAN		= "Plan:",
+ 	PROJECT		= "Project:",
+ 	PGPKEY		= "PGP Public Key:",
++	GPGKEY		= "GPG Public Key:",
+ 	NO_PLAN		= "This user has no plan.",
+ 	NO_PROJECT	= "This user has no project.",
+ 	NO_PGP		= "This user has no PGP public key.",
++	NO_GPG		= "This user has no GPG public key.",
+ 	WAIT		= "Gathering system data...",
+ 	XFACE		= "XFace:",
+ 	NO_XFACE	= "This user has no xface file."
+diff -ru cfingerd-1.4.3.gpg/docs/cfingerd.8 cfingerd-1.4.3/docs/cfingerd.8
+--- cfingerd-1.4.3.gpg/docs/cfingerd.8	Sun Sep  5 00:39:28 1999
++++ cfingerd-1.4.3/docs/cfingerd.8	Sat Jan 15 19:59:18 2000
+@@ -156,8 +156,8 @@
+ of a user's name or username, chances are, it'll be displayed.
+ .PP
+ .B Not just PLAN, or PROJECT
+-but there's also an option to display your public PGP key, if you have 
+-one.  This is very useful if you want to keep your mail or other 
++but there's also an option to display your public PGP and/or GPG key, if you have 
++that ones.  This is very useful if you want to keep your mail or other 
+ information secret to yourself, and don't want "big brother" watching 
+ over your shoulder as you talk amongst yourselves.  (Thanks to Andy Smith 
+ for this patch).  (For your info, the standard plan file is 
+@@ -166,6 +166,8 @@
+ .IR .project ,
+ PGP info is 
+ .IR .pgpkey ,
++GPG info is
++.IR .gpgkey ,
+ and XFace icon information is
+ .IR .xface )
+ .PP
+diff -ru cfingerd-1.4.3.gpg/docs/cfingerd.conf.5 cfingerd-1.4.3/docs/cfingerd.conf.5
+--- cfingerd-1.4.3.gpg/docs/cfingerd.conf.5	Sun Sep  5 00:39:28 1999
++++ cfingerd-1.4.3/docs/cfingerd.conf.5	Sat Jan 15 19:59:18 2000
+@@ -74,6 +74,11 @@
+ displaying a public or private key.  The standard here is
+ .IR ".pgpkey" .
+ .PP
++.B GPG_KEY
++is the optional "GNU Privacy Guard" file that is shown when
++displayin a public or private key.  The standard here is
++.IR ".gpgkey" .
++.PP
+ .B XFACE
+ is the optional file that shows the user's face.  (This is commonly
+ used in E-Mail messages.)  The standard here is
+@@ -231,6 +236,9 @@
+ .B PGP
+ displays the user's Pretty\-Good\-Privacy key file.
+ .PP
++.B GPG
++displays the user's GNU Privacy Guard key file.
++.PP
+ .B XFACE
+ displays the user's XFACE file.
+ .PP
+@@ -497,6 +505,9 @@
+ .B PGPKEY
+ is the string that is displayed when the user's PGP Key is shown.
+ .PP
++.B GPGKEY
++is the string that is displayed when the user's GPG Key is shown.
++.PP
+ .B XFACE
+ is the string that is displayed when the user's XFACE file is shown.
+ .PP
+@@ -517,6 +528,12 @@
+ to show you and
+ .B ONLY_SHOW_HEADERS_IF_FILE_EXISTS
+ is not enabled.
++.PP
++.B NO_GPG
++is the string that is displayed if the user doesn't have a GPG Key file
++to show you and
++.B ONLY_SHOW_HEADERS_IF_FILE_EXISTS
++is not enbaled.
+ .PP
+ .B NO_XFACE
+ is the string that is displayed if the user doesn't have an xface file 
+diff -ru cfingerd-1.4.3.gpg/src/cfingerd.h cfingerd-1.4.3/src/cfingerd.h
+--- cfingerd-1.4.3.gpg/src/cfingerd.h	Sun Aug 29 10:58:29 1999
++++ cfingerd-1.4.3/src/cfingerd.h	Sat Jan 15 19:59:18 2000
+@@ -110,6 +110,7 @@
+ #define	SHOW_FINGERFWD	0x2000	/* Allow for forwardable fingers	*/
+ #define	SHOW_ULISTONLY	0x4000	/* Allow for "userlist-only" fingers	*/
+ #define	SHOW_NOBODY1413	0x8000	/* Allow for non-ident users to finger  */
++#define SHOW_GPGKEY	0x10000 /* Show the user's GPG key file		*/
+ 
+ /* Third row of configuration bits -- ALWAYS room for improvement */
+ #define	SHOW_LOG	0x0001	/* Allow for logging of all fingers	*/
+@@ -160,6 +161,8 @@
+ #define	D_IDENT_CONREF	28	/* Connection refused for RFC1413 report*/
+ #define	D_IDENT_ILLEGAL	29	/* Illegal data in RFC1413 report	*/
+ #define	D_IDENT_TIMEOUT	30	/* RFC1413 report timed out		*/
++#define D_GPGKEY	31	/* GPG key display string		*/
++#define D_NO_GPGKEY	32	/* NO GPG key display string		*/
+ 
+ /* General program errors */
+ #define	E_STANDALONE	1	/* Cannot run in standalone mode	*/
+@@ -238,6 +241,7 @@
+     char *plan_file;		/* The generic plan file to use */
+     char *project_file;		/* The generic project file to use */
+     char *pgpkey_file;		/* The generic PGP file to use */
++    char *gpgkey_file;		/* The generic GPG file to use */
+     char *xface_file;		/* The generic XFACE file to use */
+     char *log_file;		/* The generic log file to use */
+     char *userlog_file;		/* The generic user log file to use */
+diff -ru cfingerd-1.4.3.gpg/src/configure.c cfingerd-1.4.3/src/configure.c
+--- cfingerd-1.4.3.gpg/src/configure.c	Thu Aug 12 16:16:09 1999
++++ cfingerd-1.4.3/src/configure.c	Sat Jan 15 19:59:18 2000
+@@ -60,6 +60,7 @@
+ 	{ "PLAN", SHOW_PLAN, 2 },
+ 	{ "PROJECT", SHOW_PROJECT, 2 },
+ 	{ "PGP", SHOW_PGPKEY, 2 },
++	{ "GPG", SHOW_GPGKEY, 2 },
+ 	{ "NO_NAME_BANNER", SHOW_NN_BANNER, 2 },
+ 	{ "REJECTED_BANNER", SHOW_REJECTED, 2 },
+ 	{ "SYSTEM_LIST", SHOW_SYSTEMLIST, 2 },
+@@ -105,6 +106,8 @@
+ 	{ "NO_PROJECT", D_NO_PROJECT, 0 },
+ 	{ "NO_PGP", D_NO_PGPKEY, 0 },
+ 	{ "PGPKEY", D_PGPKEY, 0 },
++	{ "NO_GPG", D_NO_GPGKEY, 0},
++	{ "GPGKEY", D_GPGKEY, 0},
+ 	{ "WAIT", D_WAIT, 0 },
+ 	{ "XFACE", D_XFACE, 0 },
+ 	{ "NO_XFACE", D_NO_XFACE, 0 },
+@@ -210,6 +213,8 @@
+ 		    strmcpy(&prog_config.project_file, (char *) filename);
+ 		else if (!(strncasecmp(element, "PGP_KEY", 7)))
+ 		    strmcpy(&prog_config.pgpkey_file, (char *) filename);
++		else if (!(strncasecmp(element, "GPG_KEY", 7)))
++		    strmcpy(&prog_config.gpgkey_file, (char *) filename);
+ 		else if (!(strncasecmp(element, "XFACE", 5)))
+ 		    strmcpy(&prog_config.xface_file, (char *) filename);
+ 		else if (!(strncasecmp(element, "NO_FINGER", 9)))
+diff -ru cfingerd-1.4.3.gpg/src/standard.c cfingerd-1.4.3/src/standard.c
+--- cfingerd-1.4.3.gpg/src/standard.c	Wed Sep 29 09:04:24 1999
++++ cfingerd-1.4.3/src/standard.c	Sat Jan 15 19:59:18 2000
+@@ -957,6 +957,10 @@
+ 		prog_config.pgpkey_file,
+ 	(prog_config.config_bits2 & SHOW_STRICTFMT) ? FALSE : TRUE);
+ 
++        show_pfile(nuid, ngid, SHOW_GPGKEY, D_GPGKEY, D_NO_GPGKEY, pwent->pw_dir,
++                prog_config.gpgkey_file,
++        (prog_config.config_bits2 & SHOW_STRICTFMT) ? FALSE : TRUE);
++
+ 	show_pfile2(nuid, ngid, SHOW_XFACE, D_XFACE, D_NO_XFACE, pwent->pw_dir,
+ 		prog_config.xface_file, FALSE);
+     }
+Only in cfingerd-1.4.3/src: standard.c~
+diff -ru cfingerd-1.4.3.gpg/src/util.c cfingerd-1.4.3/src/util.c
+--- cfingerd-1.4.3.gpg/src/util.c	Wed Sep 29 09:04:24 1999
++++ cfingerd-1.4.3/src/util.c	Sat Jan 15 19:59:18 2000
+@@ -37,6 +37,7 @@
+     prog_config.plan_file = NULL;
+     prog_config.project_file = NULL;
+     prog_config.pgpkey_file = NULL;
++    prog_config.gpgkey_file = NULL;
+     prog_config.xface_file = NULL;
+     prog_config.userlog_file = NULL;
+     prog_config.mailbox_file = NULL;
