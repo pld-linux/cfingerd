@@ -1,7 +1,7 @@
 Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
-Version:	1.4.0
+Version:	1.4.3
 Release:	1
 Group:		Networking/Daemons
 Group(pl):	Sieciowe/Serwery
@@ -11,7 +11,7 @@ URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	ftp://ftp.infodrom.north.de/pub/people/joey/cfingerd/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.inetd
-Patch0:		%{name}-ipv6.patch
+Patch0:		http://www.misiek.eu.org/ipv6/cfingerd-1.4.3-ipv6-12121999.patch.gz
 Patch1:		%{name}-config.patch
 Requires:	inetdaemon
 Requires:	rc-inetd
@@ -33,17 +33,17 @@ BuildRoot:	/tmp/%{name}-%{version}-root
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+%patch1 -p1 -b .wiget
 
 %build
 ./Configure
-make do_cfingerd
-make do_userlist
+make all CFLAGS="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install	-d $RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd,%{_sbindir},%{_mandir}/man{1,5,8}}
+install	-d $RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} \
+	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{1,5,8}}
 
 install -s	src/cfingerd		$RPM_BUILD_ROOT%{_sbindir}/
 install -s	userlist/userlist	$RPM_BUILD_ROOT%{_sbindir}/
