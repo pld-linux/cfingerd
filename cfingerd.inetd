@@ -1,6 +1,7 @@
 SERVICE_NAME=finger
 SOCK_TYPE=stream
 PROTOCOL=tcp
+PORT=79
 FLAGS=nowait
 USER=root
 SERVER=tcpd
