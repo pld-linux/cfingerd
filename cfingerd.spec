@@ -2,7 +2,7 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	9
+Release:	10
 License:	GPL
 Group:		Networking/Daemons
 Vendor:		Martin Schulze <joey@infodrom.north.de>
@@ -44,7 +44,7 @@ siê respektowanym standardem dla demonów us³ugi finger.
 
 %build
 ./Configure
-%{__make} all CFLAGS="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
+%{__make} all CFLAGS="-DINET6=1 %{rpmcflags}" LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
