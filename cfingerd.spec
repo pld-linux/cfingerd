@@ -2,7 +2,7 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	1
+Release:	2
 Group:		Networking/Daemons
 Group(pl):	Sieciowe/Serwery
 Copyright:	GPL
@@ -18,6 +18,9 @@ Requires:	rc-inetd
 Provides:	fingerd
 Obsoletes:	cfingerd-nobody
 Obsoletes:	cfingerd-noroot
+Obsoletes:	ffingetd
+Obsoletes:	finger-server
+Obsoletes:	bsd-fingerd
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -33,7 +36,7 @@ BuildRoot:	/tmp/%{name}-%{version}-root
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1 -b .wiget
+%patch1 -p1
 
 %build
 ./Configure
@@ -45,34 +48,34 @@ rm -rf $RPM_BUILD_ROOT
 install	-d $RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{1,5,8}}
 
-install -s	src/cfingerd		$RPM_BUILD_ROOT%{_sbindir}/
-install -s	userlist/userlist	$RPM_BUILD_ROOT%{_sbindir}/
-install		texts/*.txt		$RPM_BUILD_ROOT/etc/%{name}/
-install		scripts/*		$RPM_BUILD_ROOT/etc/%{name}/scripts/
-install		cfingerd.conf		$RPM_BUILD_ROOT/etc/%{name}/
-install		userlist/userlist.conf	$RPM_BUILD_ROOT/etc/%{name}/
-install		%{SOURCE1}		$RPM_BUILD_ROOT/etc/logrotate.d/%{name}
-install		%{SOURCE2}		$RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/%{name}
-install		userlist/*.1		$RPM_BUILD_ROOT%{_mandir}/man1/
-install		docs/*.5		$RPM_BUILD_ROOT%{_mandir}/man5/
-install		docs/*.8		$RPM_BUILD_ROOT%{_mandir}/man8/
+install -s src/cfingerd	userlist/userlist $RPM_BUILD_ROOT%{_sbindir}/
+install	cfingerd.conf userlist/userlist.conf $RPM_BUILD_ROOT/etc/%{name}/
 
-gzip -9nf	$RPM_BUILD_ROOT%{_mandir}/man*/* \
-		CHANGES CREDITS FAQ README README.noroot RECOMMEND TODO
+install	scripts/* $RPM_BUILD_ROOT/etc/%{name}/scripts/
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
+install	%{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/%{name}
+
+install userlist/*.1 $RPM_BUILD_ROOT%{_mandir}/man1/
+install	docs/*.5 $RPM_BUILD_ROOT%{_mandir}/man5/
+install	docs/*.8 $RPM_BUILD_ROOT%{_mandir}/man8/
+
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
+	CHANGES CREDITS FAQ README README.noroot RECOMMEND TODO
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc {CHANGES,CREDITS,FAQ,README,README.noroot,RECOMMEND,TODO}.gz
+%doc *.gz
 %attr(755,root,root) %dir /etc/%{name}
 %attr(755,root,root) %dir /etc/%{name}/scripts
 %attr(755,root,root) /etc/%{name}/scripts/*
-%attr(644,root,root) /etc/%{name}/*.txt
-%attr(644,root,root) /etc/logrotate.d/%{name}
-%attr(640,root,root) /etc/sysconfig/rc-inetd/%{name}
 %attr(755,root,root) %{_sbindir}/*
-%attr(644,root,root) %{_mandir}/man[158]/*
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/cfingerd.conf
-%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/userlist.conf
+%config(noreplace) %verify(not size mtime md5) /etc/%{name}/userlist.conf
+/etc/%{name}/*.txt
+%attr(640,root,root) /etc/logrotate.d/%{name}
+%attr(640,root,root) /etc/sysconfig/rc-inetd/%{name}
+%{_mandir}/man[158]/*
