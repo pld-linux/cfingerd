@@ -71,5 +71,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) /etc/logrotate.d/%{name}
 %attr(755,root,root) %{_sbindir}/*
 %attr(644,root,root) %{_mandir}/man[158]/*
-%attr(644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/cfingerd.conf
+%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/cfingerd.conf
 %attr(644,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/userlist.conf
