@@ -1,0 +1,2 @@
+- fixed Group(pl)
+- 'install -d' is called only once
