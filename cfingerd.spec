@@ -21,7 +21,7 @@ Obsoletes:	cfingerd-noroot
 Obsoletes:	ffingerd
 Obsoletes:	finger-server
 Obsoletes:	bsd-fingerd
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 * CFINGERD is a free finger daemon replacement for standard finger daemons
