@@ -2,7 +2,7 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	6
+Release:	7
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -14,6 +14,7 @@ Source1:	%{name}.logrotate
 Source2:	%{name}.inetd
 Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
 Patch1:		%{name}-config.patch
+Patch2:		%{name}-security_format_bug.patch
 Requires:	inetdaemon
 Prereq:		rc-inetd >= 0.8.1
 Provides:	fingerd
@@ -39,16 +40,14 @@ siê respektowanym standardem dla demonów us³ugi finger.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 ./Configure
-%{__make} all \
-	CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}" \
-	LDFLAGS="%{!?debug:-s}"
+%{__make} all CFLAGS="%{rpmcflags}" LDFLAGS="%{rpmldflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{1,5,8}}
 
@@ -67,9 +66,6 @@ install	docs/*.8 $RPM_BUILD_ROOT%{_mandir}/man8/
 
 gzip -9nf CHANGES CREDITS FAQ README README.noroot RECOMMEND TODO
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %post
 if [ -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload 1>&2
@@ -81,6 +77,9 @@ fi
 if [ -f /var/lock/subsys/rc-inetd ]; then
 	/etc/rc.d/init.d/rc-inetd reload
 fi
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
