@@ -91,6 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/cfingerd.conf
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/userlist.conf
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*.txt
-%attr(640,root,root) /etc/logrotate.d/%{name}
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/%{name}
 %attr(640,root,root) /etc/sysconfig/rc-inetd/fingerd
 %{_mandir}/man[158]/*
