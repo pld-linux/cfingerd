@@ -49,7 +49,8 @@ install	-d $RPM_BUILD_ROOT/etc/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} 
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{1,5,8}}
 
 install -s src/cfingerd	userlist/userlist $RPM_BUILD_ROOT%{_sbindir}/
-install	cfingerd.conf userlist/userlist.conf $RPM_BUILD_ROOT/etc/%{name}/
+install	cfingerd.conf userlist/userlist.conf texts/*.txt \
+	$RPM_BUILD_ROOT/etc/%{name}/
 
 install	scripts/* $RPM_BUILD_ROOT/etc/%{name}/scripts/
 
