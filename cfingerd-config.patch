@@ -16,7 +16,7 @@
   -----------------------------------------------------------------------------
 -$center Bitgate Software Configurable Finger Service
 -$center Version $version by Ken Hollis, compiled $compile_datetime
-+$center Polish Linux Distribution Configurable Finger Service
++$center PLD Linux Distribution Configurable Finger Service
  
  $center Local time and date are $time $date
  $center Greetings, $ident.
