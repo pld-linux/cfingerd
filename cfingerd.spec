@@ -2,7 +2,7 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -17,12 +17,13 @@ Patch1:		%{name}-config.patch
 Requires:	inetdaemon
 Prereq:		rc-inetd >= 0.8.1
 Provides:	fingerd
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	cfingerd-nobody
 Obsoletes:	cfingerd-noroot
+Obsoletes:	efingerd
 Obsoletes:	ffingerd
 Obsoletes:	finger-server
 Obsoletes:	bsd-fingerd
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 CFINGERD is a free finger daemon replacement for standard finger
