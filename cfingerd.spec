@@ -88,7 +88,7 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(600,root,root) %config(noreplace) %verify(not size mtime md5) /etc/%{name}/cfingerd.conf
 %config(noreplace) %verify(not size mtime md5) /etc/%{name}/userlist.conf
-/etc/%{name}/*.txt
+%config(noreplace) %verify(not size mtime md5) /etc/%{name}/*.txt
 %attr(640,root,root) /etc/logrotate.d/%{name}
 %attr(640,root,root) /etc/sysconfig/rc-inetd/%{name}
 %{_mandir}/man[158]/*
