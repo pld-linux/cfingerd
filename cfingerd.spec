@@ -43,7 +43,7 @@ siê respektowanym standardem dla demonów us³ugi finger.
 %build
 ./Configure
 %{__make} all \
-	CFLAGS="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS}" \
+	CFLAGS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS}" \
 	LDFLAGS="%{!?debug:-s}"
 
 %install
