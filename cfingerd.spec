@@ -2,16 +2,17 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	ftp://ftp.infodrom.north.de/pub/people/joey/cfingerd/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.inetd
-Patch0:		http://www.misiek.eu.org/ipv6/cfingerd-1.4.3-ipv6-12121999.patch.gz
+Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
 Patch1:		%{name}-config.patch
 Requires:	inetdaemon
 Prereq:		rc-inetd >= 0.8.1
@@ -40,7 +41,9 @@ siê respektowanym standardem dla demonów us³ugi finger.
 
 %build
 ./Configure
-%{__make} all CFLAGS="$RPM_OPT_FLAGS"
+%{__make} all \
+	CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g}" \
+	LDFLAGS="%{!?debug:=s}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -48,7 +51,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/{%{name}/scripts,logrotate.d,sysconfig/rc-inetd} \
 	$RPM_BUILD_ROOT{%{_sbindir},%{_mandir}/man{1,5,8}}
 
-install -s src/cfingerd	userlist/userlist $RPM_BUILD_ROOT%{_sbindir}/
+install src/cfingerd userlist/userlist $RPM_BUILD_ROOT%{_sbindir}/
 install	cfingerd.conf userlist/userlist.conf texts/*.txt \
 $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/
 
@@ -61,8 +64,7 @@ install userlist/*.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 install	docs/*.5 $RPM_BUILD_ROOT%{_mandir}/man5/
 install	docs/*.8 $RPM_BUILD_ROOT%{_mandir}/man8/
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
-	CHANGES CREDITS FAQ README README.noroot RECOMMEND TODO
+gzip -9nf CHANGES CREDITS FAQ README README.noroot RECOMMEND TODO
 
 %clean
 rm -rf $RPM_BUILD_ROOT
