@@ -2,7 +2,7 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wsparciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	12
+Release:	13
 License:	GPL
 Group:		Networking/Daemons
 Vendor:		Martin Schulze <joey@infodrom.north.de>
