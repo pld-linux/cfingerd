@@ -7,7 +7,7 @@ License:	GPL
 Group:		Networking/Daemons
 Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
-Source0:	ftp://ftp.infodrom.north.de/pub/people/joey/cfingerd/%{name}-%{version}.tar.gz
+Source0:	http://www.infodrom.org/projects/cfingerd/download/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.inetd
 Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
