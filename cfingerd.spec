@@ -18,7 +18,7 @@ Prereq:		rc-inetd >= 0.8.1
 Provides:	fingerd
 Obsoletes:	cfingerd-nobody
 Obsoletes:	cfingerd-noroot
-Obsoletes:	ffingetd
+Obsoletes:	ffingerd
 Obsoletes:	finger-server
 Obsoletes:	bsd-fingerd
 BuildRoot:	/tmp/%{name}-%{version}-root
