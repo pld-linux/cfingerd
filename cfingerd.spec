@@ -5,8 +5,6 @@ Version:	1.4.3
 Release:	8
 License:	GPL
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	ftp://ftp.infodrom.north.de/pub/people/joey/cfingerd/%{name}-%{version}.tar.gz
