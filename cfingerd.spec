@@ -2,10 +2,10 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	3
+Release:	4
+License:	GPL
 Group:		Networking/Daemons
 Group(pl):	Sieciowe/Serwery
-Copyright:	GPL
 Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	ftp://ftp.infodrom.north.de/pub/people/joey/cfingerd/%{name}-%{version}.tar.gz
@@ -55,7 +55,7 @@ install	cfingerd.conf userlist/userlist.conf texts/*.txt \
 install	scripts/* $RPM_BUILD_ROOT/etc/%{name}/scripts/
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/%{name}
-install	%{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/%{name}
+install	%{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/rc-inetd/fingerd
 
 install userlist/*.1 $RPM_BUILD_ROOT%{_mandir}/man1/
 install	docs/*.5 $RPM_BUILD_ROOT%{_mandir}/man5/
@@ -90,5 +90,5 @@ fi
 %config(noreplace) %verify(not size mtime md5) /etc/%{name}/userlist.conf
 %config(noreplace) %verify(not size mtime md5) /etc/%{name}/*.txt
 %attr(640,root,root) /etc/logrotate.d/%{name}
-%attr(640,root,root) /etc/sysconfig/rc-inetd/%{name}
+%attr(640,root,root) /etc/sysconfig/rc-inetd/fingerd
 %{_mandir}/man[158]/*
