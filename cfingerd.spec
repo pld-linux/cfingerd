@@ -8,6 +8,7 @@ Group:		Networking/Daemons
 Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	http://www.infodrom.org/projects/cfingerd/download/%{name}-%{version}.tar.gz
+# Source0-md5:	fe9365f811624248aa3df52c4a832fc7
 Source1:	%{name}.logrotate
 Source2:	%{name}.inetd
 Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
