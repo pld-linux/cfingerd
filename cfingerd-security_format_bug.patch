@@ -1,0 +1,40 @@
+--- cfingerd-1.4.3/src/main.c.orig	Fri Aug  6 23:33:38 1999
++++ cfingerd-1.4.3/src/main.c	Wed Apr 11 18:55:43 2001
+@@ -242,7 +242,7 @@
+ 	    if (!emulated) {
+ 		snprintf(syslog_str, sizeof(syslog_str), "%s fingered (internal) from %s", username,
+ 		    ident_user);
+-		syslog(LOG_NOTICE, (char *) syslog_str);
++		syslog(LOG_NOTICE, "%s", (char *) syslog_str);
+ 	    }
+
+ 	    handle_internal(username);
+@@ -255,7 +255,7 @@
+ 		    snprintf(syslog_str, sizeof(syslog_str), "%s fingered from %s",
+ 			prog_config.p_strings[D_ROOT_FINGER], ident_user);
+
+-		syslog(LOG_NOTICE, (char *) syslog_str);
++		syslog(LOG_NOTICE, "%s", (char *) syslog_str);
+ 	    }
+
+ 	    handle_standard(username);
+@@ -265,7 +265,7 @@
+ 		snprintf(syslog_str, sizeof(syslog_str), "%s %s from %s", username,
+ 		    prog_config.p_strings[D_FAKE_USER], ident_user);
+
+-		syslog(LOG_NOTICE, (char *) syslog_str);
++		syslog(LOG_NOTICE, "%s", (char *) syslog_str);
+ 	    }
+
+ 	    handle_fakeuser(username);
+--- cfingerd-1.4.3/src/rfc1413.c.orig	Sun Aug 29 14:14:25 1999
++++ cfingerd-1.4.3/src/rfc1413.c	Wed Apr 11 18:53:45 2001
+@@ -98,7 +98,7 @@
+
+ 	if (*(++cp) == ' ') cp++;
+ 	memset(uname, 0, sizeof(uname));
+-	for (xp=uname; *cp != '\0' && *cp!='\r'&&*cp!='\n'&&strlen(uname)<sizeof(uname); cp++)
++	for (xp=uname; *cp != '\0' && *cp!='\r'&&*cp!='\n'&&(strlen(uname)+1)<sizeof(uname); cp++)
+ 	    *(xp++) = *cp;
+
+ 	if (!strlen(uname)) {
