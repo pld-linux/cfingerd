@@ -2,7 +2,7 @@ Summary:	Highly configurable and secure finger daemon with IPv6 support
 Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wspraciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
-Release:	7
+Release:	8
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -15,6 +15,7 @@ Source2:	%{name}.inetd
 Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-security_format_bug.patch
+Patch3:		%{name}-gpg.patch
 Requires:	inetdaemon
 Prereq:		rc-inetd >= 0.8.1
 Provides:	fingerd
@@ -41,6 +42,7 @@ siê respektowanym standardem dla demonów us³ugi finger.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 ./Configure
