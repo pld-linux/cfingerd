@@ -1,18 +1,25 @@
-diff -urN cfingerd-1.4.0.orig/Makefile.in cfingerd-1.4.0/Makefile.in
---- cfingerd-1.4.0.orig/Makefile.in	Wed Aug 18 12:54:30 1999
-+++ cfingerd-1.4.0/Makefile.in	Wed Aug 18 12:54:47 1999
-@@ -3,7 +3,7 @@
+--- cfingerd-1.4.3/texts/noname_banner.txt.wiget	Sun Jun 15 19:40:33 1997
++++ cfingerd-1.4.3/texts/noname_banner.txt	Thu Dec 30 04:20:33 1999
+@@ -1,6 +1,5 @@
+  -----------------------------------------------------------------------------
+-$center Bitgate Software Configurable Finger Service
+-$center Version $version by Ken Hollis, compiled $compile_datetime
++$center Polish Linux Distribution Configurable Finger Service
  
- MAKE= @MAKE@
- CC= gcc
--CFLAGS=-O2 -Wall
-+CFLAGS=-O2 -Wall $(RPM_OPT_FLAGS)
- LDFLAGS= @LDFLAGS@
- VERSION= 1.3.2
+ $center Local time and date are $time $date
+ $center Greetings, $ident.
+--- cfingerd-1.4.3/texts/top_finger.txt.wiget	Sun Jun 15 19:40:33 1997
++++ cfingerd-1.4.3/texts/top_finger.txt	Thu Dec 30 04:20:33 1999
+@@ -1,7 +1,6 @@
  
-diff -urN cfingerd-1.4.0.orig/cfingerd.conf cfingerd-1.4.0/cfingerd.conf
---- cfingerd-1.4.0.orig/cfingerd.conf	Wed Aug 18 12:54:30 1999
-+++ cfingerd-1.4.0/cfingerd.conf	Wed Aug 18 12:56:00 1999
+  -----------------------------------------------------------------------------
+ $center **> Welcome to this host's finger system, $ident <**
+-$center This site is running cfingerd $version.
+  -----------------------------------------------------------------------------
+ $center Finger "services@this.host" to get a listing of finger query services
+ $center this system provides.
+--- cfingerd-1.4.3/cfingerd.conf.wiget	Fri Jul 30 10:18:32 1999
++++ cfingerd-1.4.3/cfingerd.conf	Thu Dec 30 04:20:33 1999
 @@ -20,7 +20,7 @@
  	XFACE		= ".xface",
  	NO_FINGER	= ".nofinger",
@@ -22,49 +29,3 @@ diff -urN cfingerd-1.4.0.orig/cfingerd.conf cfingerd-1.4.0/cfingerd.conf
  	LOGFILE		= "/var/log/cfingerd.log",
  	HEADER_DISPLAY	= "/etc/cfingerd/top_finger.txt",
  	FOOTER_DISPLAY	= "/etc/cfingerd/bottom_finger.txt",
-diff -urN cfingerd-1.4.0.orig/src/Makefile cfingerd-1.4.0/src/Makefile
---- cfingerd-1.4.0.orig/src/Makefile	Wed Aug 18 12:54:30 1999
-+++ cfingerd-1.4.0/src/Makefile	Wed Aug 18 13:08:12 1999
-@@ -4,7 +4,7 @@
- # Released under the GPL
- 
- CC= gcc
--CFLAGS=-O2 -g -Wall
-+CFLAGS=-O2 -g -Wall $(RPM_OPT_FLAGS)
- LDFLAGS=
- LINK_FLAGS= main.o options.o version.o util.o errors.o strmcpy.o \
- 	    parse.o configure.o internal.o signal.o standard.o \
-diff -urN cfingerd-1.4.0.orig/texts/noname_banner.txt cfingerd-1.4.0/texts/noname_banner.txt
---- cfingerd-1.4.0.orig/texts/noname_banner.txt	Wed Aug 18 12:54:30 1999
-+++ cfingerd-1.4.0/texts/noname_banner.txt	Wed Aug 18 12:56:42 1999
-@@ -1,6 +1,5 @@
-  -----------------------------------------------------------------------------
--$center Bitgate Software Configurable Finger Service
--$center Version $version by Ken Hollis, compiled $compile_datetime
-+$center Polish Linux Distribution Configurable Finger Service
- 
- $center Local time and date are $time $date
- $center Greetings, $ident.
-diff -urN cfingerd-1.4.0.orig/texts/top_finger.txt cfingerd-1.4.0/texts/top_finger.txt
---- cfingerd-1.4.0.orig/texts/top_finger.txt	Wed Aug 18 12:54:30 1999
-+++ cfingerd-1.4.0/texts/top_finger.txt	Wed Aug 18 12:56:53 1999
-@@ -1,7 +1,6 @@
- 
-  -----------------------------------------------------------------------------
- $center **> Welcome to this host's finger system, $ident <**
--$center This site is running cfingerd $version.
-  -----------------------------------------------------------------------------
- $center Finger "services@this.host" to get a listing of finger query services
- $center this system provides.
-diff -urN cfingerd-1.4.0.orig/userlist/Makefile cfingerd-1.4.0/userlist/Makefile
---- cfingerd-1.4.0.orig/userlist/Makefile	Wed Aug 18 12:54:30 1999
-+++ cfingerd-1.4.0/userlist/Makefile	Wed Aug 18 13:08:22 1999
-@@ -5,7 +5,7 @@
- # Released under the GPL.
- 
- CC= gcc
--CFLAGS=-O2 -g -Wall
-+CFLAGS=-O2 -g -Wall $(RPM_OPT_FLAGS)
- LINK_FLAGS= main.o initialize.o display.o options.o idle.o
- 
- userlist:	$(LINK_FLAGS)
