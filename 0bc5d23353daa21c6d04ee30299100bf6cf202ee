@@ -1,0 +1,4 @@
+- release 4,
+- install inet service description file as fingerd (this allow generate
+  conflict if anyone can install cfingerd simultanously fith other finger
+  daemon).
