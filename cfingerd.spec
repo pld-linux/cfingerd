@@ -14,7 +14,7 @@ Source2:	%{name}.inetd
 Patch0:		http://www.misiek.eu.org/ipv6/cfingerd-1.4.3-ipv6-12121999.patch.gz
 Patch1:		%{name}-config.patch
 Requires:	inetdaemon
-Requires:	rc-inetd
+Prereq:		rc-inetd >= 0.8.1
 Provides:	fingerd
 Obsoletes:	cfingerd-nobody
 Obsoletes:	cfingerd-noroot
@@ -65,6 +65,18 @@ gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man*/* \
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload 1>&2
+else
+	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet sever" 1>&2
+fi
+
+%postun
+if [ -f /var/lock/subsys/rc-inetd ]; then
+	/etc/rc.d/init.d/rc-inetd reload
+fi
 
 %files
 %defattr(644,root,root,755)
