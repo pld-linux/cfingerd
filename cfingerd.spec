@@ -15,6 +15,7 @@ Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-security_format_bug.patch
 Patch3:		%{name}-gpg.patch
+BuildRequires:	perl-base
 Requires:	inetdaemon
 Prereq:		rc-inetd >= 0.8.1
 Provides:	fingerd
