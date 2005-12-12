@@ -17,7 +17,7 @@ Patch2:		%{name}-security_format_bug.patch
 Patch3:		%{name}-gpg.patch
 BuildRequires:	perl-base
 Requires:	inetdaemon
-Prereq:		rc-inetd >= 0.8.1
+Requires:	rc-inetd >= 0.8.1
 Provides:	fingerd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	cfingerd-nobody
@@ -89,9 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %dir %{_sysconfdir}/%{name}/scripts
 %attr(755,root,root) %{_sysconfdir}/%{name}/scripts/*
 %attr(755,root,root) %{_sbindir}/*
-%attr(600,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/cfingerd.conf
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/userlist.conf
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}/*.txt
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/%{name}
-%attr(640,root,root) /etc/sysconfig/rc-inetd/fingerd
+%attr(600,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/cfingerd.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/userlist.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}/*.txt
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/%{name}
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/rc-inetd/fingerd
 %{_mandir}/man[158]/*
