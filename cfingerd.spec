@@ -5,7 +5,6 @@ Version:	1.4.3
 Release:	13
 License:	GPL
 Group:		Networking/Daemons
-Vendor:		Martin Schulze <joey@infodrom.north.de>
 URL:		http://www.infodrom.north.de/cfingerd/
 Source0:	http://www.infodrom.org/projects/cfingerd/download/%{name}-%{version}.tar.gz
 # Source0-md5:	fe9365f811624248aa3df52c4a832fc7
@@ -16,16 +15,17 @@ Patch1:		%{name}-config.patch
 Patch2:		%{name}-security_format_bug.patch
 Patch3:		%{name}-gpg.patch
 BuildRequires:	perl-base
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	inetdaemon
 Requires:	rc-inetd >= 0.8.1
 Provides:	fingerd
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	bsd-fingerd
 Obsoletes:	cfingerd-nobody
 Obsoletes:	cfingerd-noroot
 Obsoletes:	efingerd
 Obsoletes:	ffingerd
 Obsoletes:	finger-server
-Obsoletes:	bsd-fingerd
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 CFINGERD is a free finger daemon replacement for standard finger
@@ -68,15 +68,11 @@ install	docs/*.8 $RPM_BUILD_ROOT%{_mandir}/man8/
 
 
 %post
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload 1>&2
-else
-	echo "Type \"/etc/rc.d/init.d/rc-inetd start\" to start inet server" 1>&2
-fi
+%service -q rc-inetd reload
 
 %postun
-if [ -f /var/lock/subsys/rc-inetd ]; then
-	/etc/rc.d/init.d/rc-inetd reload
+if [ "$1" = 0 ]; then
+	%service -q rc-inetd reload
 fi
 
 %clean
