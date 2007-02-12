@@ -1,5 +1,5 @@
 Summary:	Highly configurable and secure finger daemon with IPv6 support
-Summary(pl):	Niezwykle konfigurowalny i bezpieczny demon fingerd ze wsparciem dla IPv6
+Summary(pl.UTF-8):   Niezwykle konfigurowalny i bezpieczny demon fingerd ze wsparciem dla IPv6
 Name:		cfingerd
 Version:	1.4.3
 Release:	13
@@ -32,10 +32,10 @@ CFINGERD is a free finger daemon replacement for standard finger
 daemons such as GNU Finger, MIT Finger, or KFINGERD. CFINGERD is
 highly becoming a respected standard as the finger daemon to use.
 
-%description -l pl
-CFINGERD jest darmowym serwerem us³ugi finger zastêpuj±cym inne demony
+%description -l pl.UTF-8
+CFINGERD jest darmowym serwerem usÅ‚ugi finger zastÄ™pujÄ…cym inne demony
 fingera takie jak GNU Finger, MIT Finger, lub KFINGERD. CFINGERD staje
-siê respektowanym standardem dla demonów us³ugi finger.
+siÄ™ respektowanym standardem dla demonÃ³w usÅ‚ugi finger.
 
 %prep
 %setup -q
