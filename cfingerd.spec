@@ -10,7 +10,7 @@ Source0:	http://www.infodrom.org/projects/cfingerd/download/%{name}-%{version}.t
 # Source0-md5:	fe9365f811624248aa3df52c4a832fc7
 Source1:	%{name}.logrotate
 Source2:	%{name}.inetd
-Patch0:		http://www.misiek.eu.org/ipv6/%{name}-1.4.3-ipv6-12121999.patch.gz
+Patch0:		%{name}-1.4.3-ipv6-12121999.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-security_format_bug.patch
 Patch3:		%{name}-gpg.patch
